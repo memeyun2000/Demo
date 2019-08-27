@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import javax.servlet.DispatcherType;
 import javax.ws.rs.core.Application;
 
+import com.sec.rest.rest.AppRestApi;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
@@ -13,12 +14,13 @@ import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.glassfish.jersey.servlet.ServletContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Hello world!
- *
+ * curl -X GET "http://localhost:13800/api/info"
  */
 public class App extends Application{
     private static Logger LOG = LoggerFactory.getLogger(App.class);
@@ -65,7 +67,8 @@ public class App extends Application{
         webApp.addServlet(new ServletHolder(new DefaultServlet()), "/*");
         contexts.addHandler(webApp);
 
-        webApp.setInitParameter("org.eclipse.jetty.servlet.Default.dirAllowed", "false");
+        //允许访问服务器目录
+        webApp.setInitParameter("org.eclipse.jetty.servlet.Default.dirAllowed", "true");
 
         contexts.addHandler(webApp);
         return webApp;
@@ -75,8 +78,9 @@ public class App extends Application{
         final ServletHolder servletHolder = new ServletHolder(new org.glassfish.jersey.servlet.ServletContainer());
 
         servletHolder.setInitParameter("javax.ws.rs.Application", App.class.getName());
+        servletHolder.setInitParameter("jersey.config.server.provider.packages", "com.sec.rest.rest");
         servletHolder.setName("rest");
-        servletHolder.setForcedPath("rest");
+
 
         webapp.setSessionHandler(new SessionHandler());
         webapp.addServlet(servletHolder, "/api/*");

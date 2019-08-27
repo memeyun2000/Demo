@@ -2,6 +2,8 @@ package com.sec.rest.rest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
@@ -22,7 +24,8 @@ public class AppRestApi {
     }
 
     @GET
-    @Path("/info")
+    @Path("info")
+    @Produces(MediaType.TEXT_PLAIN)
     public Response getProjectInfo() {
         LOG.info("hello info");
 
