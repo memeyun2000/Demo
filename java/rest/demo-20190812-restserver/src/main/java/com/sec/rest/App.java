@@ -17,6 +17,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.rmi.runtime.Log;
 
 /**
  * Hello world!
@@ -43,6 +44,21 @@ public class App extends Application{
             // TODO: handle exception
             e.printStackTrace();
         }
+
+
+
+        Runtime.getRuntime().addShutdownHook(new Thread(){
+            @Override
+            public void run() {
+                LOG.info("shutdown server ...");
+
+                try{
+                    jettyWebServer.stop();
+                } catch (Exception e) {
+                    LOG.error("Error in stopping server");
+                }
+            }
+        });
     }
 
     private static Server setupJettyServer() {
@@ -65,7 +81,7 @@ public class App extends Application{
         webApp.setParentLoaderPriority(true);
 
         webApp.addServlet(new ServletHolder(new DefaultServlet()), "/*");
-        contexts.addHandler(webApp);
+//        contexts.addHandler(webApp);
 
         //允许访问服务器目录
         webApp.setInitParameter("org.eclipse.jetty.servlet.Default.dirAllowed", "true");
