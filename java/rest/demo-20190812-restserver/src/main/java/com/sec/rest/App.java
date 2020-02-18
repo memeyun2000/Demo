@@ -28,7 +28,6 @@ public class App extends Application{
     private static Server jettyWebServer;
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
 
         jettyWebServer = setupJettyServer();
 
@@ -39,6 +38,7 @@ public class App extends Application{
           
 
         try {
+            LOG.info("server start ...");
             jettyWebServer.start();
         } catch (Exception e) {
             // TODO: handle exception
@@ -76,8 +76,10 @@ public class App extends Application{
     private static WebAppContext setupWebAppContext(ContextHandlerCollection contexts) {
         WebAppContext webApp = new WebAppContext();
 
-        webApp.setContextPath("/");
-        webApp.setResourceBase("/");
+        // 设置context path 即工程名称
+        webApp.setContextPath("/project");
+        // 设置其实静态资源目录
+        webApp.setResourceBase("/demo/java");
         webApp.setParentLoaderPriority(true);
 
         webApp.addServlet(new ServletHolder(new DefaultServlet()), "/*");
