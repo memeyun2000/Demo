@@ -81,55 +81,57 @@ public class FIFOScheduler implements Scheduler {
     public void run() {
         synchronized (queue) {
             while (terminate == false) {
-                if (runningJob != null || queue.isEmpty() == true) {
-                    try {
-                        queue.wait(500);
-                    } catch (Exception e) {
-                        LOG.error("Exception in queue wait...");
+                synchronized (queue) {
+                    if (runningJob != null || queue.isEmpty() == true) {
+                        try {
+                            queue.wait(500);
+                        } catch (Exception e) {
+                            LOG.error("Exception in queue wait...");
+                        }
+                        continue;
                     }
-                    continue;
-                }
 
-                runningJob = queue.remove(0);
+                    runningJob = queue.remove(0);
 
-                final Scheduler scheduler = this;
-                this.executor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (runningJob.isAborted()) {
-                            runningJob.setStatus(Status.ABORT);
+                    final Scheduler scheduler = this;
+                    this.executor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (runningJob.isAborted()) {
+                                runningJob.setStatus(Status.ABORT);
+                                runningJob.aborted = false;
+                                synchronized (queue) {
+                                    queue.notify();
+                                }
+                                return;
+                            }
+
+                            runningJob.setStatus(Status.RUNNING);
+                            if (listener != null) {
+                                listener.jobStarted(scheduler, runningJob);
+                            }
+                            runningJob.run();
+                            if (runningJob.isAborted()) {
+                                runningJob.setStatus(Status.ABORT);
+                            } else {
+                                if (runningJob.getException() != null) {
+                                    runningJob.setStatus(Status.ERROR);
+                                } else {
+                                    runningJob.setStatus(Status.FINISHED);
+                                }
+                            }
+                            if (listener != null) {
+                                listener.jobFinished(scheduler, runningJob);
+                            }
+                            // reset aborted flag to allow retry
                             runningJob.aborted = false;
+                            runningJob = null;
                             synchronized (queue) {
                                 queue.notify();
                             }
-                            return;
                         }
-
-                        runningJob.setStatus(Status.RUNNING);
-                        if (listener != null) {
-                            listener.jobStarted(scheduler, runningJob);
-                        }
-                        runningJob.run();
-                        if (runningJob.isAborted()) {
-                            runningJob.setStatus(Status.ABORT);
-                        } else {
-                            if (runningJob.getException() != null) {
-                                runningJob.setStatus(Status.ERROR);
-                            } else {
-                                runningJob.setStatus(Status.FINISHED);
-                            }
-                        }
-                        if (listener != null) {
-                            listener.jobFinished(scheduler, runningJob);
-                        }
-                        // reset aborted flag to allow retry
-                        runningJob.aborted = false;
-                        runningJob = null;
-                        synchronized (queue) {
-                            queue.notify();
-                        }
-                    }
-                });
+                    });
+                }
             }
 
         }
