@@ -49,6 +49,17 @@ public class SchedulerFactory implements SchedulerListener{
         }
     }
 
+    public Scheduler createOrGetParallelScheduler(String name,int maxConcurrency) {
+       synchronized (schedulers) {
+           if (schedulers.containsKey(name) == false) {
+               Scheduler s = new ParallelScheduler(name, executor ,this ,maxConcurrency);
+               schedulers.put(name, s);
+               executor.execute(s);
+           }
+           return schedulers.get(name);
+       }
+    }
+
     @Override
     public void jobStarted(Scheduler scheduler, Job job) {
         LOG.info("Job " + job.getJobName() + " started by scheduler " + scheduler.getName());

@@ -1,4 +1,6 @@
-package com.sec.schedule;
+package com.sec.test;
+
+import com.sec.schedule.Job;
 
 import java.util.Map;
 import java.util.Random;
@@ -13,6 +15,7 @@ public class EchoJob extends Job {
     @Override
     protected Object runJob() throws Throwable {
         System.out.println("this is "+this.getJobName());
+        Thread.sleep(1000);
         return this.getJobName();
     }
 
