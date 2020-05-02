@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>My first three.js app</title>
+	<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+</head>
+<body>
+<script src="js/three.js"></script>
+<script>
+			var originX = window.innerWidth / 2;
+			var originY = window.innerHeight / 2;
+			var distanceScaleFactorX = 0.0005;
+			var distanceScaleFactorY = 0.0005;
+
+			var generateRandomPoint = function() {
+			    var x = Math.floor(Math.random() * window.innerWidth);
+			    var y = Math.floor(Math.random() * window.innerHeight);
+			    var point = {
+			        x: x - originX,
+			        y: y - originY,
+			        r: 10
+			    };
+			    return point;
+			}
+			var movePoints = function(pointsToMove) {
+    			for (var i = 0; i < pointsToMove.length; i++) {
+    			    pointsToMove[i].position.x += +pointsToMove[i].position.x * distanceScaleFactorX;
+    			    pointsToMove[i].position.y += +pointsToMove[i].position.y * distanceScaleFactorY;
+
+    			    if (pointsToMove[i].position.x < -(originX) || pointsToMove[i].position.x > (originX) || pointsToMove[i].position.y < -(originY) || pointsToMove[i].position.y > (originY)) {
+    			        pointsToMove.splice(i, 1);
+    			    }
+    			}
+			}
+			var setupBallPosition = function(balls) {
+				var step = 60;
+				var r = 200;
+
+				var minX = -1 * r + step;
+				var maxX = r - step;
+				var minY = -1 * r + step;
+				var maxY = r - step;
+
+				var iballs = 0;
+				for(var x = minX + step ; x < maxX ;) {
+					for(var y = minY + step ; y < maxY;) {
+						var ball = generateRandomPoint();
+						balls[iballs] = ball;
+
+						y = y + step;
+						iballs ++;
+					}
+					x = x + step;
+				}
+				return balls;
+			}
+			var addBalls = function(group,balls) {
+				for(var i=0 ; i < balls.length ; i++) {
+					let loader = new THREE.TextureLoader();
+					let planetTexture = "./assets/imgs/planets/land_ocean.jpg";
+					let iballs = i;
+					loader.load( planetTexture, function ( texture ) {
+						let geometry = new THREE.SphereGeometry( 20, 20, 20 );
+						let material = new THREE.MeshBasicMaterial( { map: texture, overdraw: 0.5 } );
+						var mesh = new THREE.Mesh( geometry, material );
+						group.add( mesh );
+						mesh.position.x = balls[iballs].x ;
+						mesh.position.y = balls[iballs].y ;
+					} );
+				}
+			};
+			// Our Javascript will go here.
+			var scene = new THREE.Scene();
+			var group = new THREE.Group();
+			scene.add( group );
+            var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            document.body.appendChild( renderer.domElement );
+
+			var balls = [];
+			balls = setupBallPosition(balls);
+			console.log(balls);
+
+			addBalls(group,balls);
+			camera.position.z = 200;
+
+
+			var animate = function () {
+				requestAnimationFrame( animate );
+
+				for(var igroup = 0 ; igroup < group.children.length ; igroup++ ){
+<!--					group.children[igroup].position.z += 0.1;-->
+<!--					group.children[igroup].position.x -= 0.1;-->
+					group.children[igroup].rotation.y += 0.002;
+					group.children[igroup].rotation.z += 0.001;
+
+				}
+				movePoints(group.children);
+
+				renderer.render( scene, camera );
+			};
+
+			animate();
+
+
+
+		</script>
+</body>
+</html>
