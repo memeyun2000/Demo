@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>My first three.js app</title>
+	<style>
+<!--			body { margin: 0; background:url("./assets/imgs/planets/3258.png") center no-repeat }-->
+			body {
+	     		margin: 0;
+    			overflow: hidden;
+    			background: url("./assets/imgs/planets/3258.png") center no-repeat;
+    			background-size:cover;
+			}
+			canvas { width: 100%; height: 100% ; }
+		</style>
+</head>
+<body>
+<script src="js/three.js"></script>
+<script>
+			var isMoving = false;
+			var originX = window.innerWidth / 2;
+			var originY = window.innerHeight / 2;
+			var distanceScaleFactorX = 0.0000;
+			var distanceScaleFactorY = 0.0000;
+			var distanceScaleFactorZ = 1;
+
+
+			var initClickEvent = function(_clickObjects) {
+				console.log(_clickObjects);
+			    //点击射线
+			    var raycaster = new THREE.Raycaster();
+			    var mouse = new THREE.Vector2();
+			    document.getElementsByTagName("canvas")[0].addEventListener('mousedown', onDocumentMouseDown, false);
+			    function onDocumentMouseDown(event) {
+			        event.preventDefault();
+			        mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1;
+			        mouse.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1;
+
+			        raycaster.setFromCamera(mouse, camera);
+
+			        //总结一下，这里必须装网格，mesh，装入组是没有效果的
+			        //所以我们将所有的盒子的网格放入对象就可以了
+			        // 需要被监听的对象要存储在clickObjects中。
+			        var intersects = raycaster.intersectObjects(_clickObjects);
+
+			        // console.log(intersects)
+			        if(intersects.length > 0) {
+			            //TODO: 在这里填写点击代码
+			            console.log("click");
+			            console.log(intersects[0].object)
+			            isMoving = !isMoving;
+			        }
+
+			    }
+			}
+
+
+
+
+			var generateRandomPoint = function() {
+			    var x = Math.floor(Math.random() * window.innerWidth);
+			    var y = Math.floor(Math.random() * window.innerHeight);
+			    var point = {
+			        x: x - originX,
+			        y: y - originY,
+			        r: 10
+			    };
+			    return point;
+			}
+			var movePoints = function(pointsToMove) {
+    			for (var i = 0; i < pointsToMove.length; i++) {
+    			    pointsToMove[i].position.x += +pointsToMove[i].position.x * distanceScaleFactorX;
+    			    pointsToMove[i].position.y += +pointsToMove[i].position.y * distanceScaleFactorY;
+    			    pointsToMove[i].position.z += distanceScaleFactorZ;
+
+    			    if (pointsToMove[i].position.x < -(originX) || pointsToMove[i].position.x > (originX) || pointsToMove[i].position.y < -(originY) || pointsToMove[i].position.y > (originY)) {
+    			        pointsToMove.splice(i, 1);
+    			    }
+    			}
+			}
+			var setupBallPosition = function(balls) {
+				var step = 60;
+				var r = 200;
+
+				var minX = -1 * r + step;
+				var maxX = r - step;
+				var minY = -1 * r + step;
+				var maxY = r - step;
+
+				var iballs = 0;
+				for(var x = minX + step ; x < maxX ;) {
+					for(var y = minY + step ; y < maxY;) {
+						var ball = generateRandomPoint();
+						balls[iballs] = ball;
+
+						y = y + step;
+						iballs ++;
+					}
+					x = x + step;
+				}
+				return balls;
+			}
+			var addBalls = function(group,balls) {
+				for(var i=0 ; i < balls.length ; i++) {
+					let iballs = i;
+					var loader = new THREE.TextureLoader();
+					var planetTexture = balls[iballs].image;
+					loader.load( planetTexture, function ( texture ) {
+						var geometry = new THREE.SphereBufferGeometry( balls[iballs].r, 20, 20 );
+						var material = new THREE.MeshBasicMaterial( { map: texture } );
+						var mesh = new THREE.Mesh( geometry, material );
+						mesh.position.x = balls[iballs].x ;
+						mesh.position.y = balls[iballs].y ;
+						mesh.position.z = balls[iballs].z ;
+						group.add( mesh );
+					} );
+				}
+			};
+			// Our Javascript will go here.
+			var scene = new THREE.Scene();
+			var group = new THREE.Group();
+			scene.add( group );
+            var camera = new THREE.PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+            var renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            document.body.appendChild( renderer.domElement );
+
+            //set background image
+			renderer.setClearAlpha(0.2);
+
+
+			//TODO: init balls
+			var balls = [{
+				x : -220 ,
+				y : -90 ,
+				z : 1,
+				r : 33,
+				image : "./assets/imgs/planets/Earth.png"
+			},{
+				x : -270,
+				y : 70,
+				z : -70,
+				r : 33,
+				image : "./assets/imgs/planets/mars_2k.jpg"
+			},{
+				x : -80,
+				y : 105,
+				z : -131,
+				r : 33,
+				image : "./assets/imgs/planets/mars_2k.jpg"
+			},{
+				x : -120,
+				y : -45,
+				z : -120,
+				r : 33,
+				image : "./assets/imgs/planets/mars_2k.jpg"
+			},{
+				x : -55,
+				y : -3,
+				z : -280,
+				r : 33,
+				image : "./assets/imgs/planets/mars_2k.jpg"
+			},{
+				x : 29,
+				y : 101,
+				z : -530,
+				r : 33,
+				image : "./assets/imgs/planets/mars_2k.jpg"
+			},{
+				x : 135,
+				y : 90,
+				z : -830,
+				r : 33,
+				image : "./assets/imgs/planets/mars_2k.jpg"
+			},{
+				x : 36,
+				y : -88,
+				z : -21,
+				r : 33,
+				image : "./assets/imgs/planets/land_ocean.jpg"
+			},{
+				x : 145,
+				y : 86,
+				z : -207,
+				r : 33,
+				image : "./assets/imgs/planets/land_ocean.jpg"
+			},{
+				x : 300,
+				y : 53,
+				z : -201,
+				r : 33,
+				image : "./assets/imgs/planets/land_ocean.jpg"
+			},{
+				x : 175,
+				y : -130,
+				z : -30,
+				r : 33,
+				image : "./assets/imgs/planets/land_ocean.jpg"
+			},{
+				x : 370,
+				y : 39,
+				z : -71,
+				r : 33,
+				image : "./assets/imgs/planets/land_ocean.jpg"
+			}];
+
+			addBalls(group,balls);
+			initClickEvent(group.children);
+
+
+			camera.position.z = 300;
+
+
+			var animate = function () {
+				requestAnimationFrame( animate );
+
+				for(var igroup = 0 ; igroup < group.children.length ; igroup++ ){
+					group.children[igroup].rotation.y += 0.002;
+					if(group.children[igroup].position.z > 200) {
+						group.children[igroup].position.z = -900;
+					}
+				}
+				if (isMoving == true) {
+					movePoints(group.children);
+				}
+
+				renderer.render( scene, camera );
+			};
+
+			animate();
+
+
+
+		</script>
+</body>
+</html>
