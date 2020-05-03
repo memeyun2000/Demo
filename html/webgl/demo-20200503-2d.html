@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用WebGL绘制一个点</title>
+</head>
+<body>
+<!--canvas标签创建一个宽高均为500像素，背景为蓝色的矩形画布-->
+<canvas id="webgl" width="500" height="500" style="background-color: blue"></canvas>
+
+
+<script>
+    var convas = document.getElementById("webgl");
+    var context = convas.getContext("2d");
+
+    context.moveTo(0,0);
+    context.lineTo(50,50);
+    context.lineTo(0,100);
+
+    context.stroke();
+</script>
+</body>
+</html>
