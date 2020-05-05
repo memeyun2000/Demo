@@ -449,7 +449,7 @@ function setScene(){
   controls.noPan=true;
   controls.noZoom=true;
   controls.rotateSpeed=20;
-	controls.dynamicDampingFactor = .5;
+  controls.dynamicDampingFactor = .5;
   setGalaxy();
   
 	
