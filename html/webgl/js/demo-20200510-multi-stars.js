@@ -433,9 +433,10 @@ function newGalaxy (_n, _axis1, _axis2, _armsAngle, _bulbSize, _ellipticity){
 //threejs functions
 function setScene(){
   scene=new THREE.Scene();
+  scenePink=new THREE.Scene();
 
   camera=new THREE.PerspectiveCamera(70,innerWidth/innerHeight,.5,1500);
-  camera.position.set(-20,-155,90);
+  camera.position.set(-10,-135,50);
 
   renderTarget=new THREE.WebGLRenderTarget(innerWidth,innerHeight);
 
@@ -451,6 +452,7 @@ function setScene(){
   controls.rotateSpeed=20;
   controls.dynamicDampingFactor = .5;
   setGalaxy();
+  setGalaxyPink();
   
 	
 	window.addEventListener('resize',function(){
@@ -458,6 +460,7 @@ function setScene(){
 		renderer.setSize(innerWidth,innerHeight);
 		camera.updateProjectionMatrix();
 		renderer.render(scene,camera);
+		renderer.render(scenePink,camera);
 	},false);
 }
 function setGalaxy(){
@@ -478,14 +481,50 @@ function setGalaxy(){
   stars1.vertices=newGalaxy();
   galaxy=new THREE.Points(stars1,galaxyMaterial);
   scene.add(galaxy);
+  scene.rotation.y = -0.85;
+  scene.rotation.x = -0.1;
+}
+function setGalaxyPink(){
+  galaxyPinkMaterial=new THREE.ShaderMaterial({
+      vertexShader:document.getElementById('vShader-pink').textContent,
+      fragmentShader:document.getElementById('fShader-pink').textContent,
+      uniforms:{
+        size:{type:'f',value:3.3},
+        t:{type:"f",value:0},
+        z:{type:"f",value:0},
+        pixelRatio:{type:"f",value:innerHeight}
+      },
+      transparent:true,
+      depthTest:false,
+      blending:THREE.AdditiveBlending
+    });
+  var starsPink=new THREE.Geometry();
+//   starsPink.vertices=newGalaxy();
+  starsPink.vertices = newGalaxy(8000,70,70,-1,0.2,0.3)
+  galaxyPink=new THREE.Points(starsPink,galaxyPinkMaterial);
+  scenePink.add(galaxyPink);
+  scenePink.rotation.y = -0.85;
+  scenePink.rotation.x = -0.1;
+
+//   scenePink.position.x = 50;
+//   scenePink.position.y = 50;
+  scenePink.position.z = 10;
 }
 function animate(){
   if(scanPulse)t+=.7;
   if(destroyPulse)z+=.7;
   galaxyMaterial.uniforms.t.value=t;
   galaxyMaterial.uniforms.z.value=z;
-  requestAnimationFrame(animate);
-  renderer.render(scene,camera);
   scene.rotation.z+=.001;
+
+  galaxyPinkMaterial.uniforms.t.value=t;
+  galaxyPinkMaterial.uniforms.z.value=z;
+  scenePink.rotation.z+=.001;
+
   controls.update();
+  requestAnimationFrame(animate);
+  renderer.autoClear = false;
+  renderer.clear();
+  renderer.render(scene,camera);
+  renderer.render(scenePink,camera);
 }
