@@ -31,5 +31,10 @@
       <artifactId>zeppelin-zengine</artifactId>
       <version>0.6.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.zeppelin</groupId>
+      <artifactId>zeppelin-server</artifactId>
+      <version>0.6.0</version>
+    </dependency>
   </dependencies>
 </project>

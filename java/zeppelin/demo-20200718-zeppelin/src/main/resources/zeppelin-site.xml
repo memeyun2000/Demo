@@ -269,7 +269,7 @@
 <!--  dev property add by guoqy-->
   <property>
     <name>zeppelin.home</name>
-    <value>/mnt/demo/demo/Demo/java/zeppelin/demo-20200718-zeppelin/target/classes</value>
+    <value>./target/classes</value>
   </property>
 </configuration>
 

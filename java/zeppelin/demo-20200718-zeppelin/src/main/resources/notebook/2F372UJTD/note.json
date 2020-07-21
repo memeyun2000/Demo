@@ -1,0 +1,70 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n\nhelloworld",
+      "dateUpdated": "Mar 9, 2020 3:45:37 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1583739928008_-887900707",
+      "id": "20200309-154528_1251838338",
+      "result": "org.apache.zeppelin.interpreter.InterpreterException: org.apache.thrift.transport.TTransportException: java.net.ConnectException: 拒绝连接 (Connection refused)",
+      "dateCreated": "Mar 9, 2020 3:45:28 PM",
+      "dateStarted": "Mar 9, 2020 3:45:37 PM",
+      "dateFinished": "Mar 9, 2020 3:46:07 PM",
+      "status": "ERROR",
+      "errorMessage": "java.net.ConnectException: 拒绝连接 (Connection refused)\n\tat java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)\n\tat java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)\n\tat java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)\n\tat java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.net.Socket.connect(Socket.java:589)\n\tat org.apache.thrift.transport.TSocket.open(TSocket.java:182)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:55)\n\tat org.apache.zeppelin.interpreter.remote.ClientFactory.create(ClientFactory.java:39)\n\tat org.apache.commons.pool2.BasePooledObjectFactory.makeObject(BasePooledObjectFactory.java:60)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.create(GenericObjectPool.java:861)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:435)\n\tat org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:363)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterProcess.getClient(RemoteInterpreterProcess.java:184)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.init(RemoteInterpreter.java:163)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.getFormType(RemoteInterpreter.java:328)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.getFormType(LazyOpenInterpreter.java:105)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:260)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:176)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:328)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)\n\tat java.lang.Thread.run(Thread.java:748)\n",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1583739937720_-750129952",
+      "id": "20200309-154537_1129689545",
+      "dateCreated": "Mar 9, 2020 3:45:37 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Untitled Note 1",
+  "id": "2F372UJTD",
+  "angularObjects": {
+    "2F3VG1J8G:shared_process": [],
+    "2F2XD8CAC:shared_process": [],
+    "2F2X26EVE:shared_process": [],
+    "2F47X5RAZ:shared_process": [],
+    "2F3XR3EQB:shared_process": [],
+    "2F25P4W3Q:shared_process": [],
+    "2F2VGD4B7:shared_process": [],
+    "2F46M5CWD:shared_process": [],
+    "2F3CCPFZE:shared_process": [],
+    "2F44T4YQE:shared_process": [],
+    "2F3KAG9YR:shared_process": [],
+    "2F5QG9X1F:shared_process": [],
+    "2F22KFAQ9:shared_process": [],
+    "2F2KJN5AU:shared_process": [],
+    "2F4DVERT9:shared_process": [],
+    "2F34T3GAY:shared_process": [],
+    "2F55QWS7A:shared_process": []
+  },
+  "config": {},
+  "info": {}
+}
