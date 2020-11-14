@@ -1,0 +1,1 @@
+sudo docker run -itd --name apache1 -p 8080:80 -p 8081:8081 -p 8082:8082 -p 8083:8083 -v "/apps/apache2.4/docker/conf/apache1/apache1.conf":"/usr/local/apache2/conf/httpd.conf" -v "/apps/flink/flink-1.11.2/examples":"/usr/local/apache2/htdocs" httpd
