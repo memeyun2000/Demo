@@ -1,0 +1,1 @@
+sudo docker run -itd --name apache-github -p 9080:80  -v "/apps/apache2.4/docker/conf/apache-github/httpd.conf":"/usr/local/apache2/conf/httpd.conf" -v "/apps/flink/flink-1.11.2/examples":"/usr/local/apache2/htdocs" httpd
