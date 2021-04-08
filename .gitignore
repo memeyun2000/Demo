@@ -4,6 +4,7 @@ target/
 .idea/
 .project/
 bin/
+.vscode/
 
 
 
