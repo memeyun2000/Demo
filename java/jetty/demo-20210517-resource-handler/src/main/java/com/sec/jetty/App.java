@@ -20,7 +20,7 @@ public class App
         server.addConnector(connector);
 
         ResourceHandler resourceHandler = new ResourceHandler();
-        resourceHandler.setBaseResource(Resource.newResource("target/classes/"));
+        resourceHandler.setBaseResource(Resource.newResource("target/classes"));
         resourceHandler.setDirectoriesListed(false);
 
         server.setHandler(resourceHandler);
