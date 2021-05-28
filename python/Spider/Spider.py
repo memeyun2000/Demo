@@ -16,7 +16,7 @@ def fundsPersistMaxDtDict(conn):
 
 def fundTblPersistDict(conn):
     curr = conn.cursor()
-    curr.execute("select fund_id,descr from fund_tbl")
+    curr.execute("select fund_id,descr from fund_tbl ")
     list = curr.fetchall()
     curr.close()
     dict = {}
@@ -122,8 +122,8 @@ def updateFundTbl(conn):
 
 if __name__ == '__main__':
     updateFundTbl(conn)
-    fundList = list(fundTblDict.keys())
-    updateFundLList(conn,fundList)
+    # fundList = list(fundTblDict.keys())
+    # updateFundLList(conn,fundList)
 
 conn.close()
 print("closed database connection")
