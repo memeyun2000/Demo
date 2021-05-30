@@ -4,6 +4,7 @@ import execjs
 import time
 import requests
 
+# add by guoqy
 def fundsPersistMaxDtDict(conn):
     cur = conn.cursor()
     cur.execute("select fund_id,max(fund_dt) from fund_worth group by fund_id")

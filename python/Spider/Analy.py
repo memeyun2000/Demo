@@ -4,8 +4,8 @@ import numpy as np
 
 conn = sqlite3.connect("/apps/demo/Demo/python/Spider/resoureces/sqlite3.db")
 cur = conn.cursor()
-# whereStr = " and fund_dt >= '2021-03-01' and fund_dt <= '2021-07-01' "
-whereStr = ""
+whereStr = " and fund_dt >= '2021-03-01' and fund_dt <= '2021-07-01' "
+# whereStr = ""
 cur.execute("select fund_dt , amt from fund_worth where fund_id = '001792' " + whereStr)
 
 fundList = cur.fetchall()
