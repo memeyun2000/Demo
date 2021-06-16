@@ -1,5 +1,7 @@
-package com.sec.schedule;
+package com.sec.schedule.job;
 
+import com.sec.schedule.JobListener;
+import com.sec.schedule.JobProgressPoller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +44,7 @@ public abstract class Job {
 
     public static Logger LOG = LoggerFactory.getLogger(Job.class);
 
-    transient boolean aborted = false;
+    public transient boolean aborted = false;
 
     String errorMessage;
 
@@ -65,7 +67,7 @@ public abstract class Job {
     }
 
     public Job(String jobName,JobListener listener) {
-        this(jobName,listener,JobProgressPoller.DEFAULT_INTERVAL_MSEC);
+        this(jobName,listener, JobProgressPoller.DEFAULT_INTERVAL_MSEC);
     }
 
     public Job(String jobName , JobListener listener ,long progressUpdateIntervalMs) {

@@ -1,5 +1,7 @@
 package com.sec.schedule;
 
+import com.sec.schedule.job.Job;
+
 import java.util.Collection;
 
 public interface Scheduler extends Runnable {

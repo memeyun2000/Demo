@@ -2,6 +2,7 @@ package com.sec.test;
 
 import com.sec.schedule.Scheduler;
 import com.sec.schedule.SchedulerFactory;
+import com.sec.schedule.job.SyncJob;
 
 /**
  * Hello world!
@@ -9,7 +10,7 @@ import com.sec.schedule.SchedulerFactory;
  */
 public class ScheduleTest
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) throws Exception
     {
         System.out.println( "Hello World!" );
 
@@ -17,11 +18,12 @@ public class ScheduleTest
 //        Scheduler scheduler = app.getFIFOScheduler();
         Scheduler scheduler = app.getParallelScheduler();
 
-        scheduler.submit(new EchoJob("1"));
-        scheduler.submit(new EchoJob("2"));
-        scheduler.submit(new EchoJob("3"));
-        scheduler.submit(new EchoJob("4"));
-        scheduler.submit(new EchoJob("5"));
+        for(int i =0 ;i <10 ; i++) {
+            System.out.println("put one submit,No." + i);
+            scheduler.submit(new SyncJob("No." + i));
+//            scheduler.submit(new EchoJob("No." + i));
+            Thread.sleep(50);
+        }
     }
 
 

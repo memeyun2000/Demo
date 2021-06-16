@@ -1,5 +1,7 @@
 package com.sec.schedule;
 
+import com.sec.schedule.job.Job;
+
 public interface JobListener {
     public void onProgressUpdate(Job job , int progress);
 

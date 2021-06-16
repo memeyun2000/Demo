@@ -1,6 +1,4 @@
-package com.sec.test;
-
-import com.sec.schedule.Job;
+package com.sec.schedule.job;
 
 import java.util.Map;
 import java.util.Random;

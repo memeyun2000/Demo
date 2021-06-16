@@ -1,5 +1,6 @@
 package com.sec.schedule;
 
+import com.sec.schedule.job.Job;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
-import com.sec.schedule.Job.Status;
+import com.sec.schedule.job.Job.Status;
 
 public class ParallelScheduler implements Scheduler{
     List<Job> queue = new LinkedList<Job>();
